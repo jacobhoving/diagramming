@@ -1,4 +1,4 @@
-    meteor add cordova:cordova-screenshot@https://github.com/gitawego/cordova-screenshot/tarball/39bc1dff938c6f31684929c9308ea995d2f813de
+`meteor add cordova:cordova-screenshot@https://github.com/gitawego/cordova-screenshot/tarball/39bc1dff938c6f31684929c9308ea995d2f813de`
 
     // From https://github.com/gitawego/cordova-screenshot/issues/95 to avoid blocking error, but doesn't seem to help
     - (void)myPluginMethod:(CDVInvokedUrlCommand*)command { // Check command.arguments here.
