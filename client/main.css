@@ -1,7 +1,11 @@
 /* CSS declarations go here */
 
 body {
-  background-color: #ddd;
+  background-color: rgb(245, 248, 252);
+}
+
+img {
+  border: 1px solid black;
 }
 
 .screen {
@@ -11,14 +15,20 @@ body {
   width: 100%;
   height: 100%;
   display: none;
+  overflow: hidden;
 }
 
-screen .translate, screen img {
+.screen .translate, .screen .rotate, .screen img {
   position: absolute;
   top: 0;
   left: 0;
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  pointer-events: none;
+}
+.screen img {
+  position: relative;
+  zoom: 50%;
 }
 
 footer {
@@ -26,20 +36,33 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 40px;
   background-color: #fff;
 }
 
 .footer-current {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.15em;
+  text-transform: uppercase;
   position: absolute;
   top: 0;
   left: 0;
+  margin-left: 0.55em;
+  margin-top: 0.45em;
+  margin-bottom: 2;
 }
 
 .footer-next {
-  color: #ccc;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1.15em;
+  text-transform: uppercase;
+  color: rgb(205, 205, 209);
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
+  margin-top: 0.45em;
+  margin-right: 0.55em;
 }

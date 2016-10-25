@@ -4,7 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 var screens = ['space', 'actor', 'force'];
-var num_images = [4, 4, 4];
+var num_images = [6, 6, 6];
 
 Template.body.onCreated(function helloOnCreated() {
   Session.set({
@@ -45,19 +45,18 @@ Template.body.events({
     Session.set(screen_name + '_image', Math.floor(Math.random() * max_image) + 1);
 
     // Make it draggable
-    interact('.translate')
+    interact(`.${screen_name}`)
       .draggable({
         // enable inertial throwing
         inertia: true,
         // call this function on every dragmove event
         onmove: dragMoveListener,
         // call this function on every dragend event
-        onend: function (event) {
-        }
+        onend: function (event) { }
       });
 
     function dragMoveListener (event) {
-      var target = $(event.target);
+      var target = $(event.target).find('.translate');
       var x = parseFloat(target.data('x') || 0) + event.dx;
       var y = parseFloat(target.data('y') || 0) + event.dy;
 
@@ -71,9 +70,10 @@ Template.body.events({
 
     window.dragMoveListener = dragMoveListener;
 
+    // Make it rotatable
     interact(`.${screen_name}`).gesturable({
       onmove: function (event) {
-        var target = $(`.${screen_name}`).find('img');
+        var target = $(`.${screen_name}`).find('.rotate');
         var angle = parseFloat(target.data('angle') || 0) + event.da;
 
         var transform = 'rotate(' + angle + 'deg)';
@@ -97,7 +97,7 @@ Template.screen.helpers({
       return '';
     }
     else {
-      return `<img src="/${screen_name}/${screen_name}${image_num}.png" width="50%">`;
+      return `<img src="/${screen_name}/${screen_name}${image_num}.png">`;
     }
   }
 })

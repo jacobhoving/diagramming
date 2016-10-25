@@ -1,5 +1,6 @@
 <head>
   <title>diagramming</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 <body>
@@ -7,6 +8,8 @@
   {{#each screens}}
     {{> screen}}
   {{/each}}
+
+  <div class="overlay"></div>
 
   <footer>
     <div class="footer-current">
@@ -22,7 +25,9 @@
 <template name="screen">
   <div class="{{this}} screen">
     <div class="translate">
-      {{{image}}}
+      <div class="rotate">
+        {{{image}}}
+      </div>
     </div>
   </div>
 </template>
