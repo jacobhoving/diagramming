@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 TODO: After you start over, images are no longer draggable or rotatable. Maybe
 interact.js needs to be removed and then re-added.
 TODO: Filenames can't persist in camera roll. Either use some other data store that
