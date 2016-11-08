@@ -6,13 +6,21 @@ import './main.html';
 var screens = ['space', 'actor', 'force', 'save'];
 var num_images = [6, 6, 6];
 
-Template.body.onCreated(function helloOnCreated() {
+function start_over() {
   Session.set({
     screen_num: -1,
     space_image: 0,
     actor_image: 0,
     force_image: 0,
-  })
+  });
+}
+
+function get_screen_name() {
+  return screens[Session.get('screen_num')];
+}
+
+Template.body.onCreated(function helloOnCreated() {
+  start_over();
 });
 
 Template.body.helpers({
@@ -24,12 +32,20 @@ Template.body.helpers({
       return '';
     }
     else {
-      return screens[Session.get('screen_num')];
+      return get_screen_name();
     }
   },
   next_screen() {
     return screens[Session.get('screen_num') + 1];
   },
+  footer() {
+    if (get_screen_name() == 'save') {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 });
 
 Template.body.events({
@@ -38,7 +54,7 @@ Template.body.events({
     // Update the current screen number. Footer will update automatically because
     // screen_num is a reactive variable.
     Session.set('screen_num', Session.get('screen_num') + 1);
-    var screen_name = screens[Session.get('screen_num')];
+    var screen_name = get_screen_name();
 
     if (screen_name == 'save') {
       save_screenshot();
@@ -96,14 +112,22 @@ Template.body.events({
     }
 
     function save_screenshot() {
+      var filename = window.prompt("Filename", "diagram");
       console.log('Saving screenshot');
-      navigator.screenshot.save(function(error,res){
+      navigator.screenshot.save(function(error, res){
         if (error) {
-          console.error(error);
+          console.error("Couldn't save screenshot", nerror);
         } else {
           console.log('Saved screenshot', res.filePath);
+          window.cordova.plugins.imagesaver.saveImageToGallery(res.filePath, function() {
+            console.log('Saved to camera roll');
+            start_over();
+          }, function(error) {
+            console.log("Couldn't save to camera roll", error);
+            start_over();
+          });
         }
-      });
+      }, 'jpg', 100, filename);
     }
 
   },
@@ -113,11 +137,11 @@ Template.screen.helpers({
   image() {
     var screen_name = this;
     var image_num = Session.get(screen_name + '_image');
-    if (image_num == 0) {
+    if (image_num == 0 || screen_name == 'save') {
       return '';
     }
     else {
       return `<img src="/${screen_name}/${screen_name}${image_num}.png">`;
     }
   }
-})
+});

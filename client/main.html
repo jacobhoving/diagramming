@@ -11,14 +11,16 @@
 
   <div class="overlay"></div>
 
-  <footer>
-    <div class="footer-current">
-      {{current_screen}}
-    </div>
-    <div class="footer-next">
-      {{next_screen}}
-    </div>
-  </footer>
+  {{#if footer}}
+    <footer>
+      <div class="footer-current">
+        {{current_screen}}
+      </div>
+      <div class="footer-next">
+        {{next_screen}}
+      </div>
+    </footer>
+  {{/if}}
 
 </body>
 
