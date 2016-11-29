@@ -18,7 +18,10 @@ Open in Simulator (doesn't always work):
     meteor reset
     meteor run ios
 
-TODO: Fullscreen/remove top bar
+TODO: Fullscreen/remove top bar: http://stackoverflow.com/questions/20958078/resize-a-base-64-image-in-javascript-without-using-canvas
+  1. Take screenshot as a data URI and load it into an <img> tag. (Using pure pure js HTMLtoCanvas screenshot probably not advantageous because I doubt it'll respect CSS transform, so stick with existing Cordova-Screenshot plugin.)
+  2. Draw the <img> into an offscreen <canvas> as shown in above link, but shifted up 20 pixels within the <canvas> to crop off the toolbar.
+  3. Save the <canvas> to the photo gallery using Canvas2ImagePlugin below.
 
 
 
