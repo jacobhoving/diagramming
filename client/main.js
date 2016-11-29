@@ -4,7 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 
 var screens = ['space', 'actor', 'force', 'save'];
-var num_images = [6, 6, 6];
+var num_images = [66, 66, 66];
 
 function start_over() {
   Session.set({
@@ -12,7 +12,9 @@ function start_over() {
     space_image: 0,
     actor_image: 0,
     force_image: 0,
+    title: ''
   });
+  $('.screen').hide();
 }
 
 function get_screen_name() {
@@ -45,6 +47,17 @@ Template.body.helpers({
     else {
       return true;
     }
+  },
+  save() {
+    if (get_screen_name() == 'save') {
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+  title() {
+    return Session.get('title');
   }
 });
 
@@ -55,6 +68,7 @@ Template.body.events({
     // screen_num is a reactive variable.
     Session.set('screen_num', Session.get('screen_num') + 1);
     var screen_name = get_screen_name();
+    console.log(screen_name);
 
     if (screen_name == 'save') {
       save_screenshot();
@@ -70,6 +84,9 @@ Template.body.events({
       // Set a random image for this screen
       var max_image = num_images[Session.get('screen_num')];
       Session.set(screen_name + '_image', Math.floor(Math.random() * max_image) + 1);
+
+      // Remove any previous interactables
+      interact('.screen').unset();
 
       // Make it draggable
       interact(`.${screen_name}`)
@@ -112,22 +129,30 @@ Template.body.events({
     }
 
     function save_screenshot() {
-      var filename = window.prompt("Filename", "diagram");
-      console.log('Saving screenshot');
-      navigator.screenshot.save(function(error, res){
-        if (error) {
-          console.error("Couldn't save screenshot", nerror);
-        } else {
-          console.log('Saved screenshot', res.filePath);
-          window.cordova.plugins.imagesaver.saveImageToGallery(res.filePath, function() {
-            console.log('Saved to camera roll');
-            start_over();
-          }, function(error) {
-            console.log("Couldn't save to camera roll", error);
-            start_over();
-          });
+      Session.set('title', window.prompt("Title", "diagram"));
+      setTimeout(function() {
+        if (navigator && navigator.screenshot) {
+          console.log('Saving screenshot');
+          navigator.screenshot.save(function(error, res){
+            if (error) {
+              console.error("Couldn't save screenshot", error);
+            } else {
+              console.log('Saved screenshot', res.filePath);
+              window.cordova.plugins.imagesaver.saveImageToGallery(res.filePath, function() {
+                console.log('Saved to camera roll');
+                start_over();
+              }, function(error) {
+                console.log("Couldn't save to camera roll", error);
+                start_over();
+              });
+            }
+          }, 'jpg', 100); // jpeg 100% quality        }
         }
-      }, 'jpg', 100, filename);
+        else {
+          console.log('No screenshotting available');
+          start_over();
+        }
+      }, 1000); // 1 second delay before taking screenshot
     }
 
   },

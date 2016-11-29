@@ -1,20 +1,36 @@
-<<<<<<< HEAD
-TODO: After you start over, images are no longer draggable or rotatable. Maybe
-interact.js needs to be removed and then re-added.
-TODO: Filenames can't persist in camera roll. Either use some other data store that
-doesn't need a server, like iCloud Drive or Dropbox or email or something. Or just
-put a little label on the image. Either way, don't set the local filename if not necessary.
-TODO: Fullscreen/remove top bar
+Initial configuration:
 
+    meteor install-sdk ios
+    meteor add-platform ios
     meteor add cordova:cordova-screenshot@https://github.com/gitawego/cordova-screenshot/tarball/39bc1dff938c6f31684929c9308ea995d2f813de
-
     meteor add cordova:cordova-plugin-save-image@0.2.3
 
+Open in Xcode so you can deploy to device:
+
+    meteor reset
+    meteor run ios-device
+    In Xcode, select your Personal Team from TARGETS --> Signing (while the top-level project is selected)
+    Plug the phone in, select it from the dropdown in upper left, and press play
+    If you get a trust error, on the phone go to Settings --> General --> Device Management and trust yourself, then run again
+
+Open in Simulator (doesn't always work):
+
+    meteor reset
+    meteor run ios
+
+TODO: Fullscreen/remove top bar
+
+
+
 http://blog.differential.com/debug-a-meteor-cordova-app/
+
+
 
 An alternate approach could be to use https://github.com/devgeeks/Canvas2ImagePlugin, which can
 save canvas tag directly to the camera roll. Either with the screenshotting plugin, or it's
 probably possible to take our own screenshot to a canvas using pure JS.
+
+
 
 Regarding the blocking warning:
 
